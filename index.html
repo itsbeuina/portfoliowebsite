@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrapbook Dev Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #ffd6e0;
+            --pastel-blue: #c4e0f9;
+            --pastel-green: #d0f0c0;
+            --pastel-yellow: #fffac2;
+            --pastel-purple: #e0d1ff;
+            --paper-light: #fff8f0;
+        }
+        
+        body {
+            font-family: 'Mulish', cursive;
+            background-color: rgb(250, 234, 240);
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-size: 100% auto;
+        }
+
+        #home-page {
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #about-page {
+            max-height: none; 
+            min-height: 120vh; 
+            height: auto;      
+            overflow-y: auto;  
+        }
+
+         #projects-page {
+            max-height: none; 
+            min-height: 120vh; 
+            height: auto;      
+            overflow-y: auto; 
+        }
+
+        .scrapbook-page {
+            background-color: rgb(243, 250, 255);
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 900px;
+            position: relative;
+            max-height: 85vh;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            border: 5px dashed rgb(244, 226, 244);
+        }
+
+        .page-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Mulish', cursive;
+        }
+
+        h1 {
+            color: #ff80ab;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #80deea;
+            font-size: 2rem;
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #a5d6a7;
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: thistle;
+        }
+
+        .sticker {
+            background-color: var(--pastel-pink);
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transform: rotate(-5deg);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sticker:hover {
+            transform: rotate(0deg) scale(1.1);
+            background-color: var(--pastel-yellow);
+        }
+
+        .polaroid {
+            background-color: white;
+            background-attachment: fixed;
+            padding: 15px 15px 40px 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            margin: 20px;
+            max-width: 200px;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #eee;
+        }
+
+        .polaroid .caption {
+            font-family: 'Mulish', cursive;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: thistle;
+        }
+
+        .skill-badge {
+            background-color: var(--pastel-purple);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            transform: translateY(-3px);
+            background-color: var(--pastel-green);
+        }
+
+        .btn-scrapbook {
+            font-family: 'Mulish', cursive;
+            background-color: var(--pastel-pink);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-scrapbook:before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 20px;
+        }
+
+        .btn-scrapbook:hover {
+            background-color: thistle;
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn-scrapbook:active {
+            transform: translateY(0);
+            box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-menu {
+            position: fixed;
+            bottom: 20px;
+            left: 43%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            width: max-content;
+        }
+
+        .nav-item {
+            margin: 0;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            transform: scale(1.2);
+        }
+
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .project-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-left: 10px solid var(--pastel-green);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border-left-color: var(--pastel-blue);
+        }
+
+        .project-card:before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--pastel-pink);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .contact-input {
+            background-color: white;
+            border: 2px dashed var(--pastel-blue);
+            border-radius: 15px;
+            padding: 10px 15px;
+            font-family: 'Mulish', cursive;
+            font-size: 1rem;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-input:focus {
+            outline: none;
+            border-color: var(--pastel-purple);
+            box-shadow: 0 0 10px rgba(128, 222, 234, 0.5);
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .bounce {
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .pulse {
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .wiggle {
+            animation: wiggle 3s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+            100% { transform: rotate(-3deg); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--pastel-pink);
+            opacity: 0;
+        }
+
+        .button-confetti {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background-color: var(--pastel-pink);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            transform: rotate(90deg) scale(1.1);
+            background-color: var(--pastel-yellow);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-active {
+            right: 0;
+        }
+
+        .sidebar-item {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: var(--pastel-blue);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--pastel-green);
+            transform: translateX(-5px);
+        }
+
+        .sidebar-header {
+            font-family: 'Mulish', cursive;
+            font-size: 1.5rem;
+            color: #ff80ab;
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-size: cover; 
+            }
+
+            .scrapbook-page {
+                margin: 10px auto;
+                padding: 20px;
+                border: 8px solid transparent; 
+                border-image: url('https://placehold.co/100x100/fff8f0/dddddd?text=ScrapbookEdge') 30 round;
+                min-height: auto; 
+            }
+
+            h1 {
+                font-size: 2rem; 
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            .sticker {
+                padding: 3px 8px;
+                font-size: 0.9rem;
+                margin: 3px;
+            }
+
+            .btn-scrapbook {
+                padding: 8px 15px;
+                font-size: 1rem;
+                margin: 8px;
+            }
+
+            .nav-menu {
+                bottom: 10px; 
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .nav-item {
+                margin: 0 5px; 
+            }
+
+            .nav-icon {
+                width: 25px; 
+                height: 25px;
+            }
+
+            .project-card {
+                padding: 15px;
+                border-left: 8px solid var(--pastel-green); 
+            }
+
+            .project-card:before {
+                width: 15px; 
+                height: 15px;
+            }
+
+            .contact-input {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+
+            .animate__animated.animate__fadeIn[style*="display: flex"] {
+                flex-direction: column;
+                align-items: center; 
+            }
+
+            .animate__animated.animate__fadeIn[style*="display: flex"] > div {
+                min-width: unset; 
+                width: 100%; 
+                padding: 5px; 
+            }
+
+            #about-page .polaroid {
+                margin-right: 0 !important; 
+            }
+
+            .sidebar-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .sidebar {
+                width: 250px; 
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar-toggle animate__animated animate__bounceIn" onclick="toggleSidebar()">
+        <div style="width: 24px; height: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="height: 4px; background-color: white; border-radius: 2px;"></div>
+            <div style="height: 4px; background-color: white; border-radius: 2px;"></div>
+            <div style="height: 4px; background-color: white; border-radius: 2px;"></div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-header">quick links</div>
+        <div class="sidebar-item" onclick="navigateTo('home')">home</div>
+        <div class="sidebar-item" onclick="navigateTo('about')">about me</div>
+        <div class="sidebar-item" onclick="navigateTo('projects')">projects</div>
+        <div class="sidebar-item" onclick="navigateTo('skills')">skills</div>
+        <div class="sidebar-item" onclick="navigateTo('contact')">contact</div>
+    </div>
+    <div class="container mx-auto px-4 py-0">
+        <div id="home-page" class="scrapbook-page page-active animate__animated animate__fadeIn">
+            <div class="tape" style="top: 20px; left: 20px;"></div>
+            <div class="tape" style="top: 20px; right: 20px;"></div>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div class="polaroid animate__animated animate__fadeInDown" style="display: inline-block;">
+                    <img src="photo.png" alt="Front-end developer smiling in a cozy workspace with pastel decoration elements" />
+                    <div class="caption">itsbeuina</div>
+                </div>
+                <h1 class="animate__animated animate__bounceIn"></h1>
+                <div class="sticker animate__animated animate__fadeInUp" style="background-color: var(--pastel-yellow); color: #ffc6d9;">front-end developer</div>
+                <div class="sticker animate__animated animate__fadeInUp" style="background-color: var(--pastel-blue); color: var(--paper-light);">UI designer</div>
+                <div class="sticker animate__animated animate__fadeInUp" style="background-color: var(--pastel-green); color: honeydew;">creative problem solver</div>
+                <p style="font-size: 1.2rem; margin: 20px 0;" class="animate__animated animate__fadeIn">welcome to my site! ✨</p> 
+                <div>
+                    <button class="btn-scrapbook animate__animated animate__pulse animate__infinite" style="color: ivory;" onclick="navigateTo('about')">get to know me</button>
+                    <button class="btn-scrapbook animate__animated animate__pulse animate__infinite" style="color: ivory; animation-delay: 0.2s;" onclick="navigateTo('projects')">see my work</button>
+                </div>
+            </div>
+        </div>
+        <div id="about-page" class="scrapbook-page">
+            <h2 class="animate__animated animate__fadeInDown">about me</h2>
+            <div class="animate__animated animate__fadeIn" style="display: flex; flex-wrap: wrap; justify-content: space-around; margin: 20px 0;">
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-pink);">my story</h3>
+                    <p>hi, everyone! it's beuina, a front-end developer with a passion for creating beautiful, interactive web experiences. i fell in love with coding when i was designing my first blog in high school, and i've been obsessed with blending creativity and technology ever since.</p>
+                    <p>when i'm not coding, you can find me sipping matcha lattes, collecting cute stationery, or playing cozy games.</p>
+                    <div style="margin: 20px 0;">
+                        <div class="polaroid" style="display: inline-block; margin-right: 15px;">
+                            <img src="matcha.png" alt="Artisanal latte with lavender on a wooden table with a laptop in the background" />
+                            <div class="caption">matcha + code = 💖</div>
+                        </div>
+                        <div class="polaroid" style="display: inline-block;">
+                            <img src="coding.png" alt="Cozy workspace setup with pastel keyboard, notebook, and succulents" />
+                            <div class="caption">my happy place</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-blue);">education</h3>
+                    <div style="background-color: var(--pastel-yellow); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4>B.Ed. in Biology</h4>
+                        <p>Jakarta State University (2013-2017)</p>
+                        <p>specialized in educational methods and subject-specific pedagogy related to biology teaching</p>
+                    </div>
+                    <h3 style="color: var(--pastel-green);">experience</h3>
+                    <div style="background-color: var(--pastel-purple); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4>Python & Visual Programming Tutor</h4>
+                        <p>Algorithmics (Present)</p>
+                        <p>guide students in learning both text-based coding with python</p>
+                    </div>
+                    <div style="background-color: var(--pastel-pink); padding: 15px; border-radius: 10px;">
+                        <h4>Technology Educator</h4>
+                        <p>Studio Kode (2022-2023)</p>
+                        <p>guide students in learning basic programming with scratch</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-scrapbook bounce" onclick="navigateTo('projects')">see what i've built</button>
+            </div>
+        </div>
+        <div id="projects-page" class="scrapbook-page">
+            <h2 class="animate__animated animate__fadeInDown">my projects</h2>
+            <div class="project-card animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+                <h3>Lettro</h3>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">HTML</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.4s;">CSS</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.5s;">JavaScript</div>
+                <p>a minimalist desktop email app designed for aesthetic appeal and simplicity.</p>
+                <div style="display: flex; justify-content: center; margin: 15px 0;">
+                    <video autoplay muted loop playsinline style="width: 100%; max-width: 500px; border: 1px solid #eee; border-radius: 4px;">
+                        <source src="Lettro.mp4" type="video/mp4" />
+                    </video>
+                </div> 
+                <a href="https://youtu.be/3LCiHm7uHDU?si=qOpNZlqr0sYbASFD" target="_blank" rel="noopener noreferrer" class="btn-scrapbook wiggle" style="background-color: var(--pastel-blue); display: inline-block; text-decoration: none;">
+                    watch on youtube
+                </a>
+            </div>
+            <div class="project-card animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+                <h3>Bleepy</h3>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">HTML</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.4s;">CSS</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.5s;">JavaScript</div>
+                <p>a sleek, cross-platform desktop music player app designed to deliver a smooth and intuitive listening experience.</p>
+                <div style="display: flex; justify-content: center; margin: 15px 0;">
+                    <video autoplay muted loop playsinline style="width: 100%; max-width: 500px; border: 1px solid #eee; border-radius: 4px;">
+                        <source src="Bleepy.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <a href="https://youtu.be/xANFxglaAps?si=GwAWjn5Q2UgQfBnr" target="_blank" rel="noopener noreferrer" class="btn-scrapbook wiggle" style="background-color: var(--pastel-blue); display: inline-block; text-decoration: none;">
+                    watch on youtube
+                </a>
+            </div>
+            <div class="project-card animate__animated animate__fadeIn" style="animation-delay: 0.3s;">
+                <h3>Pixu</h3>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">HTML/CSS</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.4s;">JavaScript</div>
+                <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.5s;">GSAP</div>
+                <p>a minimalist social media app designed for sharing good vibes, built with simplicity and cuteness in mind.</p>
+                <div style="display: flex; justify-content: center; margin: 15px 0;">
+                    <video autoplay muted loop playsinline style="width: 100%; max-width: 500px; border: 1px solid #eee; border-radius: 4px;">
+                        <source src="Pixu.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <a href="https://youtu.be/-vmVZ2P-VGo?si=XrzPEIzcJxDe0Hgm" target="_blank" rel="noopener noreferrer" class="btn-scrapbook wiggle" style="background-color: var(--pastel-blue); display: inline-block; text-decoration: none;">
+                    watch on youtube
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-scrapbook bounce" onclick="navigateTo('skills')">see my skills</button>
+            </div>
+        </div>
+        <div id="skills-page" class="scrapbook-page">
+            <h2 class="animate__animated animate__fadeInDown">my skills</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-around; margin: 20px 0;">
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-pink);">front-end</h3>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.1s;">HTML5</div>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.2s;">CSS3</div>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">JavaScript</div>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">Python</div>
+                    <h3 style="color: var(--pastel-blue); margin-top: 20px;">design</h3>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.8s;">Figma</div>
+                </div>
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-green);">development tools</h3>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.1s;">Git</div>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.3s;">NPM</div>
+                    <div class="skill-badge animate__animated animate__fadeIn" style="animation-delay: 0.4s;">VS Code</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-scrapbook bounce" onclick="navigateTo('contact')">let's connect!</button>
+            </div>
+        </div>
+        <div id="contact-page" class="scrapbook-page">
+            <h2 class="animate__animated animate__fadeInDown">get in touch</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-around; margin: 20px 0;">
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-pink);">send me a message</h3>
+                    <form id="contact-form" style="margin-top: 20px;">
+                        <input type="text" class="contact-input animate__animated animate__fadeIn" placeholder="your name" style="animation-delay: 0.1s;">
+                        <input type="email" class="contact-input animate__animated animate__fadeIn" placeholder="your email" style="animation-delay: 0.2s;">
+                        <textarea class="contact-input animate__animated animate__fadeIn" placeholder="your message" rows="5" style="animation-delay: 0.3s;"></textarea>
+                        <button type="button" class="btn-scrapbook animate__animated animate__pulse animate__infinite button-confetti" style="animation-delay: 0.4s; background-color: var(--pastel-yellow); margin-top: 15px;" onclick="sendMessage()">send message</button>
+                    </form>
+                </div>
+                <div style="flex: 1; min-width: 300px; padding: 10px;">
+                    <h3 style="color: var(--pastel-blue);">find me online</h3>
+                    <div style="margin-top: 20px;">
+                        <div class="animate__animated animate__fadeIn" style="animation-delay: 0.1s; margin: 15px 0; display: flex; align-items: center;">
+                            <div class="nav-icon" style="background-color: var(--pastel-pink);">
+                                <img src="github.png" alt="GitHub logo" style="width: 20px; height: 20px;">
+                            </div>
+                            <span style="margin-left: 10px;">github.com/itsbeuina</span>
+                        </div>
+                        <div class="animate__animated animate__fadeIn" style="animation-delay: 0.2s; margin: 15px 0; display: flex; align-items: center;">
+                            <div class="nav-icon" style="background-color: var(--pastel-blue);">
+                                <img src="linkedin.png" alt="LinkedIn logo" style="width: 20px; height: 20px;">
+                            </div>
+                            <span style="margin-left: 10px;">linkedin.com/in/itsbeuina</span>
+                        </div>
+                        <div class="animate__animated animate__fadeIn" style="animation-delay: 0.3s; margin: 15px 0; display: flex; align-items: center;">
+                            <div class="nav-icon" style="background-color: var(--pastel-purple);">
+                                <img src="youtube.png" alt="Twitter logo" style="width: 27px; height: 27px;">
+                            </div>
+                            <span style="margin-left: 10px;">youtube.com/@itsbeuina</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-scrapbook bounce" onclick="navigateTo('home')">back to home</button>
+            </div>
+        </div>
+    </div>
+    <div class="nav-menu animate__animated animate__fadeInUp">
+        <div class="nav-item" onclick="navigateTo('home')">
+            <div class="nav-icon" style="background-color: var(--pastel-pink);">
+                <img src="home.png" style="width: 25px; height: 25px;" alt="Home icon">
+            </div>
+        </div>
+        <div class="nav-item" onclick="navigateTo('about')">
+            <div class="nav-icon" style="background-color: var(--pastel-blue);">
+                <img src="about-me.png" style="width: 30px; height: 30px;" alt="About me icon">
+            </div>
+        </div>
+        <div class="nav-item" onclick="navigateTo('projects')">
+            <div class="nav-icon" style="background-color: var(--pastel-green);">
+                <img src="projects.png" style="width: 27px; height: 27px;" alt="Projects icon">
+            </div>
+        </div>
+        <div class="nav-item" onclick="navigateTo('skills')">
+            <div class="nav-icon" style="background-color: var(--pastel-yellow);">
+                <img src="skills.png" style="width: 35px; height: 35px;" alt="Skills icon">
+            </div>
+        </div>
+        <div class="nav-item" onclick="navigateTo('contact')">
+            <div class="nav-icon" style="background-color: var(--pastel-purple);">
+                <img src="contact.png" style="width: 30px; height: 30px;" alt="Contact icon">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            const pages = document.querySelectorAll('.scrapbook-page');
+            pages.forEach(p => {
+                p.classList.remove('page-active');
+                p.style.display = 'none';
+            });
+            
+            const targetPage = document.getElementById(`${page}-page`);
+            targetPage.style.display = 'block';
+            
+            void targetPage.offsetWidth;
+            
+            targetPage.classList.add('page-active');
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('sidebar-active');
+            
+            const toggleBtn = document.querySelector('.sidebar-toggle');
+            toggleBtn.classList.toggle('animate__rotateIn');
+        }
+
+        function sendMessage() {
+            // Simple validation
+            const form = document.getElementById('contact-form');
+            const inputs = form.querySelectorAll('input, textarea');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ff80ab';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#80deea';
+                }
+            });
+            
+            if (isValid) {
+               
+                const button = document.querySelector('.button-confetti');
+                for (let i = 0; i < 20; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.top = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = getRandomColor();
+                    confetti.style.animation = `confettiFall ${Math.random() * 2 + 1}s linear forwards`;
+                    button.appendChild(confetti);
+                    
+                   
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 1000);
+                }
+                
+            
+                setTimeout(() => {
+                    alert('message sent! 💌 thank you for reaching out!');
+                }, 500);
+                
+               
+                form.reset();
+            } else {
+                alert('please fill out all fields!');
+            }
+        }
+  
+        function getRandomColor() {
+            const colors = [
+                '#ffd6e0',
+                '#c4e0f9',
+                '#d0f0c0',
+                '#fffac2',
+                '#e0d1ff'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            const pages = document.querySelectorAll('.scrapbook-page');
+            pages.forEach(p => {
+                if (!p.id.includes('home')) {
+                    p.style.display = 'none';
+                }
+            });
+            
+    
+            const stickers = document.querySelectorAll('.sticker');
+            stickers.forEach((sticker, index) => {
+                sticker.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof gsap !== 'undefined') {
+           
+                gsap.from('.photo-corner', {
+                    rotation: -90,
+                    duration: 1,
+                    ease: "elastic.out(1, 0.5)"
+                });
+                
+          
+                gsap.to('.polaroid', {
+                    y: -5,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+</body>
+</html>
